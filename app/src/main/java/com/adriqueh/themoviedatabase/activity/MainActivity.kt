@@ -1,7 +1,8 @@
-package com.adriqueh.themoviedatabase
+package com.adriqueh.themoviedatabase.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.adriqueh.themoviedatabase.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
