@@ -11,6 +11,10 @@ android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
+    def apikeyPropertiesFile = rootProject.file("apikey.properties")
+    def apikeyProperties = new Properties()
+    apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
     defaultConfig {
         applicationId "com.adriqueh.themoviedatabase"
         minSdkVersion 21
@@ -19,6 +23,12 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_KEY", apikeyProperties['API_KEY'])
+    }
+
+    buildFeatures {
+        dataBinding true
     }
 
     buildTypes {
@@ -52,6 +62,9 @@ dependencies {
     // Leak detection
     debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.7'
 
+    // SWIPE REFRESH
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
     // Fragment
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
 
@@ -59,10 +72,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
     implementation "android.arch.lifecycle:common-java8:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
 
     // Navigation Component
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
 
     // Room
     implementation "androidx.room:room-runtime:$roomVersion"
@@ -73,6 +89,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
+    kapt "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.2.0"
+
     // Dagger Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-android-compiler:$hiltVersion"
@@ -81,6 +99,13 @@ dependencies {
 
     // DataStore
     implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+    // Paging
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+
+    testImplementation "androidx.paging:paging-common-ktx:$paging_version"
+    // optional - Jetpack Compose integration
+    implementation "androidx.paging:paging-compose:1.0.0-alpha12"
 
     // Other deps
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
