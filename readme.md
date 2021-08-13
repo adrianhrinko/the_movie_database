@@ -9,4 +9,4 @@ Before build, it is required to create **apikey.properties** file inside the roo
 
 ```properties
 API_KEY="{your_api_key}"
-```>
+```
