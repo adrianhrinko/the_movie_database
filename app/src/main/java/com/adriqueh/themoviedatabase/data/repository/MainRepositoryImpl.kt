@@ -3,13 +3,11 @@ package com.adriqueh.themoviedatabase.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.map
 import com.adriqueh.themoviedatabase.data.api.ApiService
 import com.adriqueh.themoviedatabase.data.model.ChangedMovieId
 import com.adriqueh.themoviedatabase.data.model.Movie
 import com.adriqueh.themoviedatabase.data.paging.MoviePagingDataSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
