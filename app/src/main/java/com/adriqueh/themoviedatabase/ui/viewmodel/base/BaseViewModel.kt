@@ -8,17 +8,41 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 abstract class BaseViewModel : ViewModel() {
+    var isLoading = SingleLiveEvent<Boolean>()
     var errorMessage = SingleLiveEvent<String>()
 
+    inline fun <T> launchAsync(
+            crossinline execute: suspend () -> Response<T>,
+            crossinline onSuccess: (T) -> Unit
+    ) {
+        viewModelScope.launch {
+            isLoading.value = true
+            try {
+                val response = execute()
+                val result = response.body()
+
+                if (result != null)
+                    onSuccess(result)
+                else
+                    errorMessage.value = response.message()
+
+                isLoading.value = false
+            } catch (ex: Exception) {
+                errorMessage.value = ex.message
+            }
+        }
+    }
 
     inline fun <T> launchPagingAsync(
         crossinline execute: suspend () -> Flow<T>,
         crossinline onSuccess: (Flow<T>) -> Unit
     ) {
         viewModelScope.launch {
+            isLoading.value = true
             try {
                 val result = execute()
                 onSuccess(result)
+                isLoading.value = false
             } catch (ex: Exception) {
                 errorMessage.value = ex.message
             }
