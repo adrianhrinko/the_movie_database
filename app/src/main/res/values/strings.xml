@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">The movie database</string>
     <string name="retry">Retry</string>
+    <plurals name="number_of_days">
+        <item quantity="one">In the last day</item>
+        <item quantity="other" formatted="">In last %d days</item>
+    </plurals>
 </resources>
