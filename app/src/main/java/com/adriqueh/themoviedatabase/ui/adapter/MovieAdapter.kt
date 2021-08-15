@@ -17,19 +17,19 @@ import javax.inject.Inject
 class MovieAdapter @Inject constructor() :
     PagingDataAdapter<ChangedMovieId, MovieAdapter.MovieViewHolder>(MovieComparator) {
     var movieClickListener: MovieClickListener? = null
+    var movieInfoLoader: MovieInfoLoader? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MovieViewHolder(
             ItemMovieBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             ),
-            parent.context
         )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 
-    inner class MovieViewHolder(private val binding: ItemMovieBinding, private val context: Context) :
+    inner class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -41,14 +41,8 @@ class MovieAdapter @Inject constructor() :
             }
         }
 
-        fun bind(item: ChangedMovieId) = with(binding) {
-            tvTitle.text = "Movie id: ${item.id}"
-            /*
-            Glide.with(context)
-                .load("${Constants.POSTERS_BASE_URL}${item.poster_path}")
-                .into(imageViewCover)
-
-             */
+        fun bind(item: ChangedMovieId) {
+            movieInfoLoader?.loadMovieInfo(binding, item.id)
         }
     }
 
@@ -64,5 +58,8 @@ class MovieAdapter @Inject constructor() :
         fun onMovieClicked(binding: ItemMovieBinding, movieId: ChangedMovieId)
     }
 
+    interface MovieInfoLoader {
+        fun loadMovieInfo(binding: ItemMovieBinding, movieId: Long)
+    }
 
 }
