@@ -6,7 +6,7 @@ import com.adriqueh.themoviedatabase.data.api.ApiService
 import com.adriqueh.themoviedatabase.data.model.ChangedMovieId
 import java.util.*
 
-class MoviePagingDataSource(private val service: ApiService, private val startDate: Date?, private val endDate: Date?, private val applyAdultContentFilter: Boolean = true) :
+class MoviePagingDataSource(private val service: ApiService, private val startDate: Date?, private val endDate: Date?) :
     PagingSource<Int, ChangedMovieId>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ChangedMovieId> {
         val pageNumber = params.key ?: 1
@@ -17,13 +17,9 @@ class MoviePagingDataSource(private val service: ApiService, private val startDa
             val changedMovieIds = pagedResponse?.results
             val totalPages = pagedResponse?.total_pages
 
-            val result = changedMovieIds?.apply {
-                if (applyAdultContentFilter) {
-                    filter { !it.adult }
-                }
-            }
+            val result = changedMovieIds?.filter { !it.adult }
 
-            var nextPageNumber = pageNumber
+            var nextPageNumber: Int = pageNumber
 
             totalPages?.let {
                 if (it >= pageNumber) {
@@ -34,7 +30,7 @@ class MoviePagingDataSource(private val service: ApiService, private val startDa
             LoadResult.Page(
                 data = result.orEmpty(),
                 prevKey = null,
-                nextKey = nextPageNumber
+                nextKey = if (changedMovieIds.isNullOrEmpty()) null else nextPageNumber
             )
         } catch (e: Exception) {
             LoadResult.Error(e)
@@ -42,4 +38,5 @@ class MoviePagingDataSource(private val service: ApiService, private val startDa
     }
 
     override fun getRefreshKey(state: PagingState<Int, ChangedMovieId>): Int = 1
+
 }
