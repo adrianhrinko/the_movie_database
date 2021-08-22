@@ -24,7 +24,6 @@ class MovieDetailFragment: BaseFragment<FragmentMovieDetailBinding, MovieDetailV
 
     override fun bindVM(binding: FragmentMovieDetailBinding, vm: MovieDetailViewModel) =
             with(vm) {
-
                 enableBackButton()
 
                 launchOnLifecycleScope {
@@ -36,12 +35,6 @@ class MovieDetailFragment: BaseFragment<FragmentMovieDetailBinding, MovieDetailV
                     }
                 }
             }
-
-    private fun enableBackButton() {
-        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setDisplayShowHomeEnabled(true)
-    }
 
     private fun updateUi(binding: FragmentMovieDetailBinding, vm: MovieDetailViewModel) = with(binding) {
         with(vm) {

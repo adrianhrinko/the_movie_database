@@ -85,12 +85,6 @@ class MovieListFragment: BaseFragment<FragmentMovieListBinding, MoviesViewModel>
             }
         }
 
-    private fun disableBackButton() {
-        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(false)
-        actionBar?.setDisplayShowHomeEnabled(false)
-    }
-
     override fun onMovieClicked(binding: ItemMovieBinding, movieId: ChangedMovieId) {
         findNavController().navigate(
             MovieListFragmentDirections.actionMovieListFragmentToMovieDetailFragment(movieId)

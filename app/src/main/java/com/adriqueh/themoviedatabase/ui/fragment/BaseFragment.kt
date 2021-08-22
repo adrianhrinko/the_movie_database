@@ -54,4 +54,16 @@ abstract class BaseFragment<DB : ViewDataBinding, VM : BaseViewModel> : Fragment
             execute()
         }
     }
+
+    protected fun enableBackButton() {
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setDisplayShowHomeEnabled(true)
+    }
+
+    protected fun disableBackButton() {
+        val actionBar = (requireActivity() as AppCompatActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+        actionBar?.setDisplayShowHomeEnabled(false)
+    }
 }

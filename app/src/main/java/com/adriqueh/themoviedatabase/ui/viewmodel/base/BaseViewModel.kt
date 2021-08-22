@@ -25,10 +25,10 @@ abstract class BaseViewModel : ViewModel() {
                     onSuccess(result)
                 else
                     errorMessage.value = response.message()
-
-                isLoading.value = false
             } catch (ex: Exception) {
                 errorMessage.value = ex.message
+            } finally {
+                isLoading.value = false
             }
         }
     }
@@ -42,9 +42,10 @@ abstract class BaseViewModel : ViewModel() {
             try {
                 val result = execute()
                 onSuccess(result)
-                isLoading.value = false
             } catch (ex: Exception) {
                 errorMessage.value = ex.message
+            } finally {
+                isLoading.value = false
             }
         }
     }
